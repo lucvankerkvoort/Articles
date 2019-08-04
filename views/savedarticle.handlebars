@@ -26,9 +26,12 @@
             <button class="delete btn btn-danger" data-id=" {{_id}}">Delete Article</button>
             <br />
             <br />
+            <div id="note" class="col-md-12"> </div>
             <form>
                 <div class="form-group {{_id}} d-none">
-                    <textarea class="form-control" id="textform" rows="3"></textarea>
+                    <input class="form-control" placeholder="Title" type="text">
+                    <textarea data-id="{{_id}}" class="form-control" id="textform" rows="3"
+                        placeholder="Notes"></textarea>
                     <br />
                     <button type="submit" data-id="{{_id}}" class="btn btn-primary">Submit</button>
                 </div>

@@ -24,4 +24,37 @@ $(".note").on("click", function() {
   }
 });
 
-$("#submit").on("click", function() {});
+$("button[type=submit]").on("click", function() {
+  event.preventDefault();
+  let thisId = $(this).attr("data-id");
+  const note = {
+    title: $(`input[placeholder=Title]`)
+      .val()
+      .trim(),
+    text: $(`textarea[data-id=${thisId}]`)
+      .val()
+      .trim()
+  };
+  $("input[placeholder=Title]").empty();
+  $(`textarea[data-id=${thisId}]`).empty();
+
+  console.log(note);
+  $.post("/articlesnote/" + thisId, note, function(res) {
+    $.get("/articles/" + res._id, function(res) {
+      console.log(res);
+      const button = $("<button>");
+      button.addClass("remove btn-primary btn");
+      button.attr("data-id", res.note._id);
+      button.text(res.note.title);
+      $("#note").append(button);
+    });
+  });
+});
+
+$(document).on("click", ".remove", function() {
+  let thisId = $(this).attr("data-id");
+  $.get("/delete/note/" + thisId, function(res) {
+    console.log(res);
+    location.reload();
+  });
+});
